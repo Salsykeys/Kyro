@@ -53,6 +53,8 @@ model Product {
   transaction_details TransactionDetail[]
   carts       Cart[]
 
+
+  @@index([category_id])
   @@map("products")
 }
 
@@ -67,6 +69,8 @@ model Cart {
   cashier     User     @relation(fields: [cashier_id], references: [id], onDelete: Cascade)
   product     Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
 
+  @@index([cashier_id])
+  @@index([product_id])
   @@map("carts")
 }
 
@@ -85,6 +89,8 @@ model Transaction {
   transaction_details TransactionDetail[]
   profits       Profit[]
 
+  @@index([cashier_id])
+  @@index([customer_id])
   @@map("transactions")
 }
 
@@ -99,6 +105,8 @@ model TransactionDetail {
   transaction   Transaction @relation(fields: [transaction_id], references: [id], onDelete: Cascade)
   product       Product     @relation(fields: [product_id], references: [id], onDelete: Cascade)
 
+  @@index([transaction_id])
+  @@index([product_id])
   @@map("transaction_details")
 }
 
@@ -121,5 +129,6 @@ model Profit {
   created_at    DateTime  @default(now())
   transaction   Transaction @relation(fields: [transaction_id], references: [id], onDelete: Cascade)
 
+  @@index([transaction_id])
   @@map("profits")
 }
